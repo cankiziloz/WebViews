@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>International Book Database System</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <link rel="stylesheet"  type = "text/css" href="http://localhost/proje/assets/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet"  type = "text/css" href="http://localhost/proje/assets/css/animate.css">
+    
+    <link rel="stylesheet"  type = "text/css" href="http://localhost/proje/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet"  type = "text/css" href="http://localhost/proje/assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet"  type = "text/css" href="http://localhost/proje/assets/css/magnific-popup.css">
+
+    <link rel="stylesheet"  type = "text/css" href="http://localhost/proje/assets/css/aos.css">
+
+    <link rel="stylesheet"  type = "text/css" href="http://localhost/proje/assets/css/ionicons.min.css">
+	
+	<link rel="stylesheet" type="text/css" href="http://localhost/proje/assets/testcss.css">
+
+    <link rel="stylesheet"  type = "text/css" href="http://localhost/proje/assets/css/flaticon.css">
+    <link rel="stylesheet"  type = "text/css" href="http://localhost/proje/assets/css/icomoon.css">
+	<link rel="stylesheet"  type = "text/css" href="http://localhost/proje/assets/css/style.css">
+	<script type="text/javascript">
+        var $total = 1 ; 
+        function search_google_books() {
+        var $i;
+		var isbns = ["9780439785969", "9780345538376", "9780822205104", "9780192833983", "9781400032488", "9780020419709"];
+
+        for ($i = 0 ; $i < 6 ;$i++){
+            var script = document.createElement('script');
+            script.src = 'https://www.googleapis.com/books/v1/volumes?callback=show_bookcover&q=isbn:' + isbns[$i];
+            document.body.appendChild(script);
+        }
+
+
+
+
+
+}
+function show_bookcover(booksInfo){
+  var link = '<span class="nolink">No image available...</span>';
+  var str2 = "" ;  
+  for (i in booksInfo.items) {
+    var book = booksInfo.items[i]
+    var image = book.volumeInfo.imageLinks;
+    if (image && image.thumbnail != undefined)  {
+      var thumbnail = image.thumbnail.replace('zoom=5', 'zoom=1');
+      if ( document.location.protocol == 'https:' ) {
+        var parser = document.createElement('a');
+        parser.href = thumbnail;
+    parser.protocol = 'https:';
+        parser.hostname = 'encrypted.google.com';
+        thumbnail = parser.href;
+      }
+      link = '<img src="' + thumbnail + '" />';
+      if (book.accessInfo && book.accessInfo.viewability != "NO_PAGES") {
+        var preview = book.volumeInfo.previewLink;
+    link += '<br /><a href="' + preview + '" target="_blank"><img   border=0 src="//www.google.com/googlebooks/images/gbs_preview_button1.gif" title="Google Preview" alt="Google Preview" /></a>';
+      }
+    }
+	link += '<br /> <h3> <br>'+ book.volumeInfo.title +'</br> </h3>' ;
+	if (book.volumeInfo.authors.length > 0) {
+      link += '<br /> ' + book.volumeInfo.authors.join("; ") ;
+	}
+	
+  }
+  var $str = "idke" + $total ; 
+  $total = $total + 1 ; 
+  document.getElementById($str).innerHTML = link;
+  document.getElementById($str).value = book.volumeInfo.isbns ; 
+  
+}
+function start () {
+    search_google_books();
+}
+    </script>
+  </head>
+  <body onload="start()" data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light site-navbar-target" id="ftco-navbar">
+	    <div class="container">
+			<a class="navbar-brand" href="#home-section"><img src=http://localhost/proje/assets/images/logo.png style="width:7em; height:6em;"></a>
+	      <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav nav ml-auto">
+	          <li class="nav-item"><a href="#home-section" class="nav-link"><span>Home</span></a></li>
+	          <li class="nav-item"><a href="#services-section" class="nav-link"><span>Services</span></a></li>
+	          <li class="nav-item"><a href="#destination-section" class="nav-link"><span>Search and Lists</span></a></li>
+	          <li class="nav-item"><a href="#hotel-section" class="nav-link"><span>Profile</span></a></li>
+	          <li class="nav-item"><a href="#blog-section" class="nav-link"><span>Blog</span></a></li>
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+	  
+	  
+
+	  <section id="home-section" class="hero">
+		<img src="http://localhost/proje/assets/images/blob-shape-3.svg" class="svg-blob" alt="Colorlib Free Template">
+		<div class="home-slider owl-carousel">
+		<div class="slider-item">
+			<div class="overlay"></div>
+		  <div class="container-fluid p-0">
+			<div class="row d-md-flex no-gutters slider-text align-items-center justify-content-end" data-scrollax-parent="true">
+				<div class="one-third order-md-last">
+					<div class="img" style="background-image:url(http://localhost/proje/assets/images/rj.jpg);">
+						<div class="overlay"></div>
+					</div>
+					<div class="bg-primary">
+						<div class="vr"><span class="pl-3 py-4" style="background-image: url(http://localhost/proje/assets/images/rj-1.jpg);">Romeo&Juliet</span></div>
+					</div>
+				</div>
+				<div class="one-forth d-flex align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+					<div class="text">
+						<span class="subheading pl-5">Discover Romeo & Juliet</span>
+					  <h1 class="mb-4 mt-3">A tragedic masterpiece.</h1>
+					  <p>Shakespeare’s Romeo and Juliet tells the tale of a young man and woman, who fall in love but are destined for tragedy due to their warring families - the Montagues and the Capulets.</p>
+					  <form method="get" action="/proje/index.php/Welcome/single/"><input type="hidden" name="slider" value="17539"> 
+						<h3><input type="submit" value="Discover" class="btn btn-primary px-5 py-3 mt-3"></h3></form> 
+				  </div>
+				</div>
+			  </div>
+		  </div>
+		</div>
+
+		<div class="slider-item">
+			<div class="overlay"></div>
+		  <div class="container-fluid p-0">
+			<div class="row d-flex no-gutters slider-text align-items-center justify-content-end" data-scrollax-parent="true">
+				<div class="one-third order-md-last">
+					<div class="img" style="background-image:url(http://localhost/proje/assets/images/b1984.jpg);">
+						<div class="overlay"></div>
+					</div>
+					<div class="vr"><span class="pl-3 py-4" style="background-image: url(http://localhost/proje/assets/images/b1984-2.jpg);">1984</span></div>
+				</div>
+				<div class="one-forth d-flex align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+					<div class="text">
+						<span class="subheading pl-5">Discover 1984</span>
+					  <h1 class="mb-4 mt-3">A dystopian masterpiece.</span></h1>
+					  <p>1984 is a dystopian novella by George Orwell published in 1949, which follows the life of Winston Smith, a low ranking member of ‘the Party’, who is frustrated by the omnipresent eyes of the party, and its ominous ruler Big Brother.</p>
+					  <form method="get" action="/proje/index.php/Welcome/single/"><input type="hidden" name="slider" value="16416"> 
+						<h3><input type="submit" value="Discover" class="btn btn-primary px-5 py-3 mt-3"></h3></form> 
+				  </div>
+				</div>
+			  </div>
+		  </div>
+		</div>
+	  </div>
+  </section>
+
+  <section class="ftco-section">
+	<div class="container">
+		<div class="row justify-content-center pb-5">
+	  <div class="col-md-12 heading-section text-center ftco-animate">
+		<span class="subheading">Recommended Books</span>
+		<h2 class="mb-4">Best Books To Your Taste!</h2>
+		<p>You should read!</p>
+	  </div>
+	  <div>
+		<form action="/proje/index.php/Welcome/recommend/">
+			<h3><input type="submit" value='Get Recommendation!' class="btn btn-primary px-5 py-3 mt-3"></h3>
+		  </form>
+	  </div>
+	  
+</section>
+		
+	<section class="ftco-section ftco-services-2" id="services-section">
+		<div class="container">
+			<div class="row justify-content-center pb-5">
+	  <div class="col-md-12 heading-section text-center ftco-animate">
+		<span class="subheading">Services</span>
+		<h2 class="mb-4">Our Services</h2>
+		<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+	  </div>
+	</div>
+	<div class="row">
+		<div class="col-md d-flex align-self-stretch ftco-animate">
+		<div class="media block-6 services text-center d-block">
+		  <div class="icon justify-content-center align-items-center d-flex"><span class="flaticon-gliding"></span></div>
+		  <div class="media-body">
+			<h3 class="heading mb-3">Search For A Book !</h3>
+			<p>You can search a book that can drive you to beautiful worlds.</p>
+		  </div>
+		</div>      
+	  </div>
+	  <div class="col-md d-flex align-self-stretch ftco-animate">
+		<div class="media block-6 services text-center d-block">
+		  <div class="icon justify-content-center align-items-center d-flex"><span class="flaticon-world"></span></div>
+		  <div class="media-body">
+			<h3 class="heading mb-3">Create Challenge !</h3>
+			<p>You can challenge yourself with challenges.</p>
+		  </div>
+		</div>      
+	  </div>
+	  <div class="col-md d-flex align-self-stretch ftco-animate">
+		<div class="media block-6 services text-center d-block">
+		  <div class="icon justify-content-center align-items-center d-flex"><span class="flaticon-tour-guide"></span></div>
+		  <div class="media-body">
+			<h3 class="heading mb-3">Get Recommendation !</h3>
+			<p>You can find the most suitable book for you.</p>
+		  </div>
+		</div>      
+	  </div>
+	  <div class="col-md d-flex align-self-stretch ftco-animate">
+		<div class="media block-6 services text-center d-block">
+		  <div class="icon justify-content-center align-items-center d-flex"><span class="flaticon-map-of-roads"></span></div>
+		  <div class="media-body">
+			<h3 class="heading mb-3">Create Lists !</h3>
+			<p>You can create lists to keep track your wishlists and save your books.</p>
+		  </div>
+		</div>      
+	  </div>
+	</div>
+		</div>
+	</section>
+
+	
+
+		<section class="ftco-intro img" id="destination-section" style="background-image: url(http://localhost/proje/assets/images/bg_3.jpg);">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-9 text-center">
+                        <h2>Discover New Books !!!</h2>
+                        <p>Just One Book Can Change The Whole World.</p>
+                        <p class="mb-0"><a href="http://localhost/proje/assets/colorlib-search-1/index.html" class="btn btn-white px-4 py-3">Search Books</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+		<section class="ftco-section">
+			<div class="container">
+				<div class="row justify-content-center pb-5">
+			  <div class="col-md-12 heading-section text-center ftco-animate">
+				  <span class="subheading">Books</span>
+				<h2 class="mb-4">Best Books To Read</h2>
+				<p>Your Bucket List Bookshelf</p>
+			  </div>
+			</div>
+				<div class="row">
+					<div class="col-md-6 col-lg-4 ftco-animate">
+						<div class="project">
+							<div class="img" id ="idke1" value = "">
+								<div class="vr"><span>Sale</span></div>
+								<a href="destination.html"><img class="img-fluid" alt="Colorlib Template"></a>
+							</div>
+							<div class="text">
+								
+								
+							
+								<div class="star d-flex clearfix">
+									<div class="mr-auto float-left">
+									
+									</div>
+									<div class="float-right">
+										
+									</div>
+								</div>
+							</div>
+							<a href="<?php echo base_url('assets/images/destination-1.jpg');?>" class="icon image-popup d-flex justify-content-center align-items-center">
+								<span class="icon-expand"></span>
+							</a>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-4 ftco-animate">
+						<div class="project">
+							<div class="img" id = "idke2">
+								<a href="destination.html"><img  class="img-fluid" alt="Colorlib Template"></a>
+							</div>
+							<div class="text">
+							
+								
+								
+								<div class="star d-flex clearfix">
+									<div class="mr-auto float-left">
+			
+									</div>
+									<div class="float-right">
+										
+									</div>
+								</div>
+							</div>
+							<a href="<?php echo base_url('assets/images/destination-2.jpg');?>" class="icon image-popup d-flex justify-content-center align-items-center">
+								<span class="icon-expand"></span>
+							</a>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-4 ftco-animate">
+						<div class="project">
+							<div class="img" id ="idke3">
+								<a href="destination.html"><img  class="img-fluid" alt="Colorlib Template"></a>
+							</div>
+							<div class="text">
+								
+								
+								
+								<div class="star d-flex clearfix">
+									<div class="mr-auto float-left">
+									
+									</div>
+									<div class="float-right">
+										
+									</div>
+								</div>
+							</div>
+							<a href="<?php echo base_url('assets/images/destination-3.jpg');?>" class="icon image-popup d-flex justify-content-center align-items-center">
+								<span class="icon-expand"></span>
+							</a>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-4 ftco-animate">
+						<div class="project">
+							<div class="img" id = "idke4">
+								<a href="destination.html"><img class="img-fluid" alt="Colorlib Template"></a>
+							</div>
+							<div class="text">
+								
+								
+								
+								<div class="star d-flex clearfix">
+									<div class="mr-auto float-left">
+									
+									</div>
+									<div class="float-right">
+										
+									</div>
+								</div>
+							</div>
+							<a href="<?php echo base_url('assets/images/destination-4.jpg');?>" class="icon image-popup d-flex justify-content-center align-items-center">
+								<span class="icon-expand"></span>
+							</a>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-4 ftco-animate">
+						<div class="project">
+							<div class="img" id ="idke5">
+								<a href="destination.html"><img  class="img-fluid" alt="Colorlib Template"></a>
+							</div>
+							<div class="text">
+								
+								
+								
+								<div class="star d-flex clearfix">
+									<div class="mr-auto float-left">
+									
+									</div>
+									<div class="float-right">
+										
+									</div>
+								</div>
+							</div>
+							<a href="<?php echo base_url('assets/images/destination-5.jpg');?>" class="icon image-popup d-flex justify-content-center align-items-center">
+								<span class="icon-expand"></span>
+							</a>
+						</div>
+					</div>
+					<div class="col-md-6 col-lg-4 ftco-animate">
+						<div class="project">
+							<div class="img" id = "idke6">
+								<a href="destination.html"><img  class="img-fluid" alt="Colorlib Template"></a>
+							</div>
+							<div class="text">
+								
+								
+							
+								<div class="star d-flex clearfix">
+									<div class="mr-auto float-left">
+										
+									</div>
+									<div class="float-right">
+										
+									</div>
+								</div>
+							</div>
+							<a href="<?php echo base_url('assets/images/destination-6.jpg');?>" class="icon image-popup d-flex justify-content-center align-items-center">
+								<span class="icon-expand"></span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+	<section class="ftco-intro img" id="hotel-section" style="background-image: url(http://localhost/proje/assets/images/ban.jpg);">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-9 text-center">
+					<h2>Choose A Book</h2>
+					<p>“Books are the quietest and most constant of friends; they are the most accessible and wisest of counselors, and the most patient of teachers.”
+						– Charles W. Eliot</p>
+						<p class="mb-0"><a href="/proje/index.php/Welcome/getListsOfUser/" class="btn btn-white px-4 py-3">Check Your Lists!</a></p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+		<section class="ftco-section" id="login-section">
+    	<div class="container">
+    		<div class="row justify-content-center pb-5">
+          <div class="col-md-12 heading-section text-center ftco-animate">
+          	<span class="subheading">Lists</span>
+            <h2 class="mb-4">Find Top Lists</h2>
+            <p>You can see unique lists!</p>
+          </div>
+        </div>
+    		<div class="row">
+    			<div class="col-md-6 col-lg-4 ftco-animate">
+    				<div class="project">
+    					<div class="img">
+							<div class="vr"></div>
+							<a ><img src="http://localhost/proje/assets/images/book3.jpg" class="img-fluid" alt="Colorlib Template"></a>
+	    				</div>
+	    				<div class="text">
+	    					<h4 class="price"></h4>
+							<h3><a >Top List 1</a></h3>
+							<form action="/proje/index.php/Welcome/getBooksOfList/" method="get">
+								<input type="hidden" name="slider" value='3'>
+							<h3><input type="submit" value='See'></h3>
+					
+							</form>
+	    					<div class="star d-flex clearfix">
+	    						<div class="mr-auto float-left">
+	    						</div>
+	    						<div class="float-right">
+	    							<span class="rate"><a href="#">(120)</a></span>
+	    						</div>
+	    					</div>
+						</div>
+						
+	    				<a href="http://localhost/proje/assets/images/hotel-1.jpg" class="icon image-popup d-flex justify-content-center align-items-center">
+	    					<span class="icon-expand"></span>
+	    				</a>
+    				</div>
+    			</div>
+    			<div class="col-md-6 col-lg-4 ftco-animate">
+    				<div class="project">
+    					<div class="img">
+							<div class="vr"></div>
+							<a ><img src="http://localhost/proje/assets/images/book2.jpg" class="img-fluid" alt="Colorlib Template"></a>
+	    				</div>
+	    				<div class="text">
+	    					<h4 class="price"></h4>
+							<h3><a >Top List 2</a></h3>
+							<form action="/proje/index.php/Welcome/getBooksOfList/" method="get">
+								<input type="hidden" name="slider" value='4'>
+							<h3><input type="submit" value='See'></h3>
+					
+							</form>
+	    					<div class="star d-flex clearfix">
+	    						<div class="mr-auto float-left">
+	    						</div>
+	    						<div class="float-right">
+	    							<span class="rate"><a href="#">(120)</a></span>
+	    						</div>
+	    					</div>
+						</div>
+						
+	    				<a href="http://localhost/proje/assets/images/hotel-1.jpg" class="icon image-popup d-flex justify-content-center align-items-center">
+	    					<span class="icon-expand"></span>
+	    				</a>
+    				</div>
+    			</div>
+    			<div class="col-md-6 col-lg-4 ftco-animate">
+    				<div class="project">
+    					<div class="img">
+							<div class="vr"></div>
+							<a ><img src="http://localhost/proje/assets/images/book4.jpg" class="img-fluid" alt="Colorlib Template"></a>
+	    				</div>
+	    				<div class="text">
+	    					<h4 class="price"></h4>
+							<h3><a >Top List 3</a></h3>
+							<form action="/proje/index.php/Welcome/getBooksOfList/" method="get">
+								<input type="hidden" name="slider" value='5'>
+							<h3><input type="submit" value='See'></h3>
+					
+							</form>
+	    					<div class="star d-flex clearfix">
+	    						<div class="mr-auto float-left">
+	    						</div>
+	    						<div class="float-right">
+	    							<span class="rate"><a href="#">(120)</a></span>
+	    						</div>
+	    					</div>
+						</div>
+						
+	    				<a href="http://localhost/proje/assets/images/hotel-1.jpg" class="icon image-popup d-flex justify-content-center align-items-center">
+	    					<span class="icon-expand"></span>
+	    				</a>
+    				</div>
+    			</div>
+    		</div>
+    		<div class="row justify-content-center pb-5 pt-5">
+          <div class="col-md-12 heading-section text-center ftco-animate">
+          	<span class="subheading">Account &amp; Settings</span>
+            <h2 class="mb-4">You can update your profile!</h2>
+            <p>“That’s the thing about books. They let you travel without moving your feet.” – Jhumpa Lahiri in The Namesake</p>
+          </div>
+        </div>
+    		<div class="row">
+    			<div class="col-md-12 room-wrap">
+    				<div class="row">
+    					<div class="col-md-7 d-flex ftco-animate">
+    						<div class="img align-self-stretch" style="background-image: url(http://localhost/proje/assets/images/books.png);"></div>
+    					</div>
+    					<div class="col-md-5 ftco-animate">
+    						<div class="text py-5">
+    							<h3>Account Settings</h3>
+    							<p>“For some of us, books are as important as almost anything else on earth. What a miracle it is that out of these small, flat, rigid squares of paper unfolds world after world after world, worlds that sing to you, comfort and quiet or excite you. Books help us understand who we are and how we are to behave. They show us what community and friendship mean; they show us how to live and die.”
+									– Anne Lamott</p>
+									
+								<a href="/proje/index.php/Welcome/get/" class="btn btn-secondary">Settings</a>
+    							
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+    	
+    		</div>
+    	</div>
+    </section>
+
+    <section class="ftco-section testimony-section">
+    	<img src="<?php echo base_url('assets/images/blob-shape-2.svg');?>" class="svg-blob" alt="Colorlib Free Template">
+    	<img src="<?php echo base_url('assets/images/blob-shape-2.svg');?>" class="svg-blob-2" alt="Colorlib Free Template">
+      <div class="container">
+        <div class="row justify-content-center pb-3">
+          <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+          	<span class="subheading">Excellent Team!</span>
+            <h2 class="mb-4">“Coming together is a beginning. Keeping together is progress. Working together is success.”</h2>
+          </div>
+        </div>
+        <div class="row ftco-animate justify-content-center">
+          <div class="col-md-12">
+            <div class="carousel-testimony owl-carousel ftco-owl">
+              <div class="item">
+                <div class="testimony-wrap text-center py-4 pb-5">
+                  <div class="user-img" style="background-image: url(http://localhost/proje/assets/images/ege.jpg)">
+                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                  </div>
+                  <div class="text px-4 pb-5">
+					<p class="mb-4">ismail.oguz@ceng.deu.edu.tr</p>
+					<li><a href="#"><span class="icon icon-envelope"></span><span class="text">ismail.oguz@ceng.deu.edu.tr</span></a></li>
+                    <p class="name">Ege Oguz</p>
+                    <span class="position">Team Member (Full-Stack)</span>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="testimony-wrap text-center py-4 pb-5">
+                  <div class="user-img" style="background-image: url(http://localhost/proje/assets/images/can.jpg)">
+                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                  </div>
+                  <div class="text px-4 pb-5">
+					<p class="mb-4">can.kiziloz@ceng.deu.edu.tr</p>
+					<li><a href="#"><span class="icon icon-envelope"></span><span class="text">can.kiziloz@ceng.deu.edu.tr</span></a></li>
+                    <p class="name">Can Kiziloz</p>
+                    <span class="position">Team Member (Full-Stack)</span>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="testimony-wrap text-center py-4 pb-5">
+                  <div class="user-img" style="background-image: url(http://localhost/proje/assets/images/brc.jpg)">
+                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                  </div>
+                  <div class="text px-4 pb-5">
+                    <p class="mb-4">burcu.olmez@ceng.deu.edu.tr</p>
+					<li><a href="#"><span class="icon icon-envelope"></span><span class="text">burcu.olmez@ceng.deu.edu.tr</span></a></li>
+                    <p class="name">Burcu Olmez</p>
+                    <span class="position">Team Member (Full-Stack)</span>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="testimony-wrap text-center py-4 pb-5">
+                  <div class="user-img" style="background-image: url(http://localhost/proje/assets/images/deu.jpg)">
+                    <span class="quote d-flex align-items-center justify-content-center">
+                      <i class="icon-quote-left"></i>
+                    </span>
+                  </div>
+                  <div class="text px-4 pb-5">
+                    <p class="mb-4">web@cs.deu.edu.tr</p>
+					<li><a href="#"><span class="icon icon-envelope"></span><span class="text">web@cs.deu.edu.tr</span></a></li>
+                    <p class="name">Dokuz Eylul University</p>
+                    <span class="position">Home</span>
+                  </div>
+                </div>
+              </div>
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    
+
+	<section class="ftco-section bg-light" id="blog-section">
+		<div class="container">
+		  <div class="row justify-content-center mb-5 pb-5">
+			<div class="col-md-7 heading-section text-center ftco-animate">
+			  <span class="subheading">Blog</span>
+			  <h2 class="mb-4">Articles</h2>
+			  <p>About books!!!</p>
+			</div>
+		  </div>
+		  <div class="row d-flex">
+			<div class="col-md-6 col-lg-4 d-flex ftco-animate">
+				<div class="blog-entry justify-content-end">
+				<a href="single.html" class="block-20" style="background-image: url(http://localhost/proje/assets/images/img1.jpg);">
+				</a>
+				<div class="text float-right d-block">
+					<div class="d-flex align-items-center pt-2 mb-4 topp">
+						<div class="one mr-2">
+							<span class="day">15</span>
+						</div>
+						<div class="two">
+							<span class="yr">2020</span>
+							<span class="mos">December</span>
+						</div>
+					</div>
+				  <h3 class="heading"><a href="single.html">Reading Harry Potter in a new light during the coronavirus pandemic</a></h3>
+				  <p>Of course, this hasn’t been the best year for a lot of things as a result of the COVID-19 pandemic and subsequent isolation protocols. It is curious, then, that this beleaguered franchise — so dear to the hearts of a generation of readers — and the lockdown of the global population might combine to create something with resonance, entirely by accident.</p>
+				  <div class="d-flex align-items-center mt-4 meta">
+					  <p class="mb-0"><a href="https://theconversation.com/reading-harry-potter-in-a-new-light-during-the-coronavirus-pandemic-151835" class="btn btn-primary">Read More <span class="ion-ios-arrow-round-forward"></span></a></p>
+					  <p class="ml-auto mb-0">
+						  <a  class="mr-2">J. Andrew Deman</a>
+						  <a class="meta-chat"><span class="icon-chat"></span> 3</a>
+					  </p>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-6 col-lg-4 d-flex ftco-animate">
+				<div class="blog-entry justify-content-end">
+				<a href="single.html" class="block-20" style="background-image: url(http://localhost/proje/assets/images/imgg3.jpg);">
+				</a>
+				<div class="text float-right d-block">
+					<div class="d-flex align-items-center pt-2 mb-4 topp">
+						<div class="one mr-2">
+							<span class="day">2</span>
+						</div>
+						<div class="two">
+							<span class="yr">2020</span>
+							<span class="mos">December</span>
+						</div>
+					</div>
+				  <h3 class="heading"><a href="single.html">In our own voices: 5 Australian books about living with disability</a></h3>
+				  <p>Fiction and non-fiction works about disability and Deafness are often hampered by stereotypical representations. A disability is frequently presented as something to “overcome”, or used to characterise someone (ever notice all those evil characters portrayed as disfigured?).</p>
+				  <div class="d-flex align-items-center mt-4 meta">
+					  <p class="mb-0"><a href="https://theconversation.com/in-our-own-voices-5-australian-books-about-living-with-disability-150543" class="btn btn-primary">Read More <span class="ion-ios-arrow-round-forward"></span></a></p>
+					  <p class="ml-auto mb-0">
+						  <a  class="mr-2">Jessica White</a>
+						  <a class="meta-chat"><span class="icon-chat"></span> 3</a>
+					  </p>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-6 col-lg-4 d-flex ftco-animate">
+				<div class="blog-entry">
+				<a href="single.html" class="block-20" style="background-image: url(http://localhost/proje/assets/images/img2.jpg);">
+				</a>
+				<div class="text float-right d-block">
+					<div class="d-flex align-items-center pt-2 mb-4 topp">
+						<div class="one mr-2">
+							<span class="day">11</span>
+						</div>
+						<div class="two">
+							<span class="yr">2020</span>
+							<span class="mos">November</span>
+						</div>
+					</div>
+				  <h3 class="heading"><a href="single.html">Five haunted house stories to read during lockdown</a></h3>
+				  <p>England is facing a second lockdown and with days getting shorter and colder we are spending more time than ever inside. A recent survey of how reading habits changed during the first lockdown found that people were reading more – and that trend is sure to continue this time round.</p>
+				  <div class="d-flex align-items-center mt-4 meta">
+					  <p class="mb-0"><a href="https://theconversation.com/five-haunted-house-stories-to-read-during-lockdown-149844" class="btn btn-primary">Read More <span class="ion-ios-arrow-round-forward"></span></a></p>
+					  <p class="ml-auto mb-0">
+						  <a  class="mr-2">Daniel Cook</a>
+						  <a class="meta-chat"><span class="icon-chat"></span></a>
+					  </p>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </section>
+  
+
+		
+		<section class="ftco-section ftco-no-pt ftco-no-pb">
+			<div id="map" class="bg-white"></div>
+		</section>
+
+		<section class="ftco-gallery">
+			<div class="container-fluid px-0">
+				<div class="row no-gutters">
+						<div class="col-md-4 col-lg-2 ftco-animate">
+							<a href="http://localhost/proje/assets/images/gl1.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(http://localhost/proje/assets/images/gl1.jpg);">
+								<div class="icon mb-4 d-flex align-items-center justify-content-center">
+								<span class="icon-instagram"></span>
+							</div>
+							</a>
+						</div>
+						<div class="col-md-4 col-lg-2 ftco-animate">
+							<a href="http://localhost/proje/assets/images/gl2.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(http://localhost/proje/assets/images/gl2.jpg);">
+								<div class="icon mb-4 d-flex align-items-center justify-content-center">
+								<span class="icon-instagram"></span>
+							</div>
+							</a>
+						</div>
+						<div class="col-md-4 col-lg-2 ftco-animate">
+							<a href="http://localhost/proje/assets/images/gal3.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(http://localhost/proje/assets/images/gal3.jpg);">
+								<div class="icon mb-4 d-flex align-items-center justify-content-center">
+								<span class="icon-instagram"></span>
+							</div>
+							</a>
+						</div>
+						<div class="col-md-4 col-lg-2 ftco-animate">
+							<a href="http://localhost/proje/assets/images/gal4.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(http://localhost/proje/assets/images/gal4.jpg);">
+								<div class="icon mb-4 d-flex align-items-center justify-content-center">
+								<span class="icon-instagram"></span>
+							</div>
+							</a>
+						</div>
+						<div class="col-md-4 col-lg-2 ftco-animate">" 
+							<a href="http://localhost/proje/assets/images/gal6.jpg" class="gallery image-popup img d-flex align-items-center" style="background-image: url(http://localhost/proje/assets/images/gal6.jpg);">
+								<div class="icon mb-4 d-flex align-items-center justify-content-center">
+								<span class="icon-instagram"></span>
+							</div>
+							</a>
+						</div>
+						<div class="col-md-4 col-lg-2 ftco-animate">
+							<a href="http://localhost/proje/assets/images/gal5.png" class="gallery image-popup img d-flex align-items-center" style="background-image: url(http://localhost/proje/assets/images/gal5.png);">
+								<div class="icon mb-4 d-flex align-items-center justify-content-center">
+								<span class="icon-instagram"></span>
+							</div>
+							</a>
+						</div>
+			</div>
+			</div>
+		</section>
+		<footer class="ftco-footer ftco-section">
+			<div class="container">
+			  <div class="row mb-5">
+				<div class="col-md">
+				  <div class="ftco-footer-widget mb-4">
+					<h2 class="ftco-heading-2">About <span><a href="http://localhost/proje/application/views/index.html">IBDMS</a></span></h2>
+					<p>A site established to bring book lovers together.</p>
+					<ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+					  <li class="ftco-animate"><a href="https://twitter.com/universitemDEU"><span class="icon-twitter"></span></a></li>
+					  <li class="ftco-animate"><a href="https://www.facebook.com/groups/deu.izmir"><span class="icon-facebook"></span></a></li>
+					  <li class="ftco-animate"><a href="https://www.instagram.com/deu_ceng/"><span class="icon-instagram"></span></a></li>
+					</ul>
+				  </div>
+				</div>
+				<div class="col-md">
+				  <div class="ftco-footer-widget mb-4 ml-md-4">
+					<h2 class="ftco-heading-2">Information</h2>
+					<ul class="list-unstyled">
+					  <li><a href="#home-section"><span class="icon-long-arrow-right mr-2"></span>Home</a></li>
+					  <li><a href="#services-section"><span class="icon-long-arrow-right mr-2"></span>Services</a></li>
+					  <li><a href="#blog-section"><span class="icon-long-arrow-right mr-2"></span>Blog</a></li>
+
+					</ul>
+				  </div>
+				</div>
+				<div class="col-md">
+				   <div class="ftco-footer-widget mb-4">
+					<h2 class="ftco-heading-2">Actions</h2>
+					<ul class="list-unstyled">
+					  <li><a href="#destination-section"><span class="icon-long-arrow-right mr-2"></span>Search</a></li>
+					  <li><a href="#hotel-section"><span class="icon-long-arrow-right mr-2"></span>Lists</a></li>
+					  <li><a href="#home-section"><span class="icon-long-arrow-right mr-2"></span>Recommendation</a></li>
+					  <li><a href="#login-section"><span class="icon-long-arrow-right mr-2"></span>Profile</a></li>
+					</ul>
+				  </div>
+				</div>
+				<div class="col-md">
+				  <div class="ftco-footer-widget mb-4">
+					  <h2 class="ftco-heading-2">Have a Questions?</h2>
+					  <div class="block-23 mb-3">
+						<ul>
+						  <li><span class="icon icon-map-marker"></span><span class="text">Kuruçeşme Mh. Deü Kaynaklar Yerleşkesi Pk:35370 Buca/izmir</span></li>
+						  <li><a href="#"><span class="icon icon-phone"></span><span class="text">(0232) 412 74 01</span></a></li>
+						  <li><a href="#"><span class="icon icon-envelope"></span><span class="text">web@cs.deu.edu.tr</span></a></li>
+						</ul>
+					  </div>
+				  </div>
+				</div>
+			  </div>
+			  <div class="row">
+				<div class="col-md-12 text-center">
+		  
+				  <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+		Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved. <i class="icon-heart color-danger" aria-hidden="true"></i> </a>
+		<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+				</div>
+			  </div>
+			</div>
+		  </footer>
+  
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+  <link rel="stylesheet"  type = "text/css" href="http://localhost/proje/assets/css/open-iconic-bootstrap.min.css">
+
+  <script src="http://localhost/proje/assets/js/jquery.min.js"></script>
+  <script src="http://localhost/proje/assets/js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="http://localhost/proje/assets/js/popper.min.js"></script>
+  <script src="http://localhost/proje/assets/js/bootstrap.min.js"></script>
+  <script src="http://localhost/proje/assets/js/jquery.easing.1.3.js"></script>
+  <script src="http://localhost/proje/assets/js/jquery.waypoints.min.js"></script>
+  <script src="http://localhost/proje/assets/js/jquery.stellar.min.js"></script>
+  <script src="http://localhost/proje/assets/js/owl.carousel.min.js"></script>
+  <script src="http://localhost/proje/assets/js/jquery.magnific-popup.min.js"></script>
+  <script src="http://localhost/proje/assets/js/aos.js"></script>
+  <script src="http://localhost/proje/assets/js/jquery.animateNumber.min.js"></script>
+  <script src="http://localhost/proje/assets/js/scrollax.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="http://localhost/proje/assets/js/google-map.js"></script>
+  
+  <script src="http://localhost/proje/assets/js/main.js"></script>
+    
+  </body>
+</html>

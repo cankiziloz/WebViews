@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>IBDMS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <link rel="stylesheet" href="http://localhost/proje/assets/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost/proje/assets/css/animate.css">
+    
+    <link rel="stylesheet" href="http://localhost/proje/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="http://localhost/proje/assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="http://localhost/proje/assets/css/magnific-popup.css">
+
+    <link rel="stylesheet" href="http://localhost/proje/assets/css/aos.css">
+
+    <link rel="stylesheet" href="http://localhost/proje/assets/css/ionicons.min.css">
+    
+    <link rel="stylesheet" href="http://localhost/proje/assets/css/flaticon.css">
+    <link rel="stylesheet" href="http://localhost/proje/assets/css/icomoon.css">
+    <link rel="stylesheet" href="http://localhost/proje/assets/css/style.css">
+    <script>
+       function search_google_books() {
+       
+        var bookJson = <?=json_encode($bookInfo)?>;
+
+        var isbn = bookJson.isbn;
+          
+         
+         var script = document.createElement('script');
+          script.src = 'https://www.googleapis.com/books/v1/volumes?callback=show_bookcover&q=isbn:' + isbn;
+         document.body.appendChild(script);
+          
+  }
+  function show_bookcover(booksInfo){
+    var link = '<span class="nolink">No image available...</span>';
+    var str2 = "" ;
+    for (i in booksInfo.items) {
+      var book = booksInfo.items[i]
+      var image = book.volumeInfo.imageLinks;
+      if (image && image.thumbnail != undefined)  {
+        var thumbnail = image.thumbnail.replace('zoom=5', 'zoom=1');
+        if ( document.location.protocol == 'https:' ) {
+          var parser = document.createElement('a');
+          parser.href = thumbnail;
+      parser.protocol = 'https:';
+          parser.hostname = 'encrypted.google.com';
+          thumbnail = parser.href;
+        }
+        link = '<img src="' + thumbnail + '" />';
+        if (book.accessInfo && book.accessInfo.viewability != "NO_PAGES") {
+          var preview = book.volumeInfo.previewLink;
+      link += '<br /><a href="' + preview + '" target="_blank"><img   border=0 src="//www.google.com/googlebooks/images/gbs_preview_button1.gif" title="Google Preview" alt="Google Preview" /></a>';
+        }
+      }
+  
+  
+    }
+
+    document.getElementById("imgg").innerHTML = link;
+  
+  }
+      function list(){
+        var list = document.getElementById('lists-select');
+        var lists = <?=json_encode($lists)?>;
+        var str="";
+        for (var i = 0; i < lists.length; i++) {
+          str += '<option value='+lists[i].id+'>'+lists[i].list_name+'</option>';
+        }
+        list.innerHTML="";
+        $("#lists-select").append(str);
+      }
+      function getComments(){
+        var commentJson = <?=json_encode($bookComments)?>;
+        return commentJson;
+        
+         
+      }
+      function setBookInfo(){
+        var bookJson = <?=json_encode($bookInfo)?>;
+        var bookName = document.getElementById('book-name');
+        bookName.innerText=bookJson.name;
+        document.getElementById("slider").value=bookJson.id;
+        document.getElementById("book_id").value=bookJson.id;
+        document.getElementById('author').innerText=bookJson.author;
+        document.getElementById('page_count').innerText=bookJson.page_count;
+        document.getElementById('language').innerText=bookJson.language;
+        document.getElementById('publish_date').innerText=bookJson.publish_date;
+        document.getElementById('publisher').innerText=bookJson.publisher;
+        document.getElementById('avgRate').innerText=bookJson.book_rate;
+        document.getElementById('book-id').value=bookJson.id;
+      }
+      
+      
+      function click(click = 1){
+        var commentsJson = getComments();
+        if(commentsJson!="null"){
+          var commentsJsonLenght = commentsJson.length;
+			    commentsJsonLenght = Math.ceil(commentsJsonLenght/2);
+			    var page = document.getElementById('page');
+			
+			    var str = ""; 
+			
+			    for (var i = 1; i < commentsJsonLenght + 1; i++) {
+				    if(i == click){
+					    str += '<li id="clicked" class="active"><span>'+i+'</span></li>';
+				    }
+				    else{
+				  	  str += '<li onclick="start('+i+')" ><a href="#" >'+i+'</a></li>'
+				    }
+			    }
+			    page.innerHTML="";
+			    $("#page").append(str);
+        }
+      }  
+      function change(id)
+      {
+        var cname=document.getElementById(id).className;
+        var ab=document.getElementById(id+"_hidden").value;
+        document.getElementById(cname+"rating").innerHTML=ab;
+        var str = id + "_hidden" ; 
+        document.getElementById("phprating").value = document.getElementById(str).value;
+        for(var i=ab;i>=1;i--)
+        {
+          document.getElementById(cname+i).src="http://localhost/proje/assets/images/star_2.png";
+        }
+        var id=parseInt(ab)+1;
+        for(var j=id;j<=5;j++)
+        {
+          document.getElementById(cname+j).src="http://localhost/proje/assets/images/star_1.png";
+        }
+
+
+      }
+      function ShowAndHide(i){
+                
+        var x = document.getElementById('SectionName'+i);
+        if (x.style.display == 'none') {
+          x.style.display = 'block';
+        } 
+        else {
+          x.style.display = 'none';
+        }
+      }
+      function displayComments(){
+       
+        var clicked = document.getElementById('clicked').textContent;
+        var comments = getComments();
+      
+          
+        var str = "";
+        var comment_element = document.getElementById('user_comments');
+        if(comments!="null"){
+          var com = document.getElementById('comment_count');
+          com.innerText = comments.length+ " Reviews";
+          for (var i = (clicked-1)*2; i < clicked*2; i++) {
+            if(comments[i]!=null){
+              if(comments[i].isSpoiler==1){
+                str+='<li class="comment"> \
+                  <div class="vcard bio"> \
+                    <img src="http://localhost/proje/assets/images/person_1.jpg" alt="Image placeholder"> \
+                 </div> \
+                  <div class="comment-body"> \
+                    <h3>'+comments[i].nickname+'</h3> \
+                    <p id="SectionName'+i+'" style="display:none">'+comments[i].comment_str+'</p> \
+                  </div> \
+                </li> \
+                <button onclick="ShowAndHide('+i+')" >Click to show or hide the spoiler!</button>' ;
+              }
+              else{
+              str += '<li class="comment"> \
+                  <div class="vcard bio"> \
+                    <img src="http://localhost/proje/assets/images/person_1.jpg" alt="Image placeholder"> \
+                  </div> \
+                  <div class="comment-body"> \
+                   <h3>'+comments[i].nickname+'</h3> \
+                    <p>'+comments[i].comment_str+'</p> \
+                  </div> \
+                </li>';
+              }
+            }
+          }
+        }
+        
+        //comment_element.innerText=str;
+        comment_element.innerHTML="";
+        $("#user_comments").append(str);
+        }
+      function start(int){
+        setBookInfo();
+        click(int);
+        displayComments();
+        list();
+        search_google_books() ; 
+      }
+
+    </script>
+  </head>
+  <body onload="start()" data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light site-navbar-target" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="index.html"><img src=http://localhost/proje/assets/images/logo.png style="width:7em; height:6em;"></a>
+	      <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span>Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav nav ml-auto">
+            <li class="nav-item"><a href="http://localhost/proje/application/views/index.html#home-section" class="nav-link"><span>Home</span></a></li>
+	          <li class="nav-item"><a href="http://localhost/proje/application/views/index.html#services-section" class="nav-link"><span>Services</span></a></li>
+	          <li class="nav-item"><a href="http://localhost/proje/application/views/index.html#about-section" class="nav-link"><span>About</span></a></li>
+	          <li class="nav-item"><a href="http://localhost/proje/application/views/index.html#destination-section" class="nav-link"><span>Search</span></a></li>
+	          <li class="nav-item"><a href="http://localhost/proje/application/views/index.html#blog-section" class="nav-link"><span>Blog</span></a></li>
+	          <li class="nav-item"><a href="http://localhost/proje/application/views/index.html#footer-section" class="nav-link"><span>Contact</span></a></li>
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+	  
+	  <section class="hero-wrap" style="background-image: url('http://localhost/proje/assets/images/destination-single.jpg');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-start">
+          <div class="col-md-9 ftco-animate pb-4">
+            <h1 id="book-name" class="mb-3 bread"></h1>
+            <p><a href="#" class="btn btn-primary py-2 px-4">Check Google Books!</a></p>
+            <p>Select a list to add the book</p>
+            <form action="/proje/index.php/Welcome/addList/" method="post">
+              <select class="custom-select" name="lists-select" id="lists-select"></select>
+              <input type="hidden" name="book-id" id="book-id" value="">
+              <button class="btn  py-3 px-5">OK</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section ftco-services-2 ftco-no-pt">
+    	<div class="container-fluid px-0 bg-light">
+    		<div class="container">
+    			<div class="row tour py-5">
+        	<div class="col-md d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services text-center d-block">
+              <img src="http://localhost/proje/assets/images/poem.png" >
+            </br></br>
+             
+              <div class="media-body">
+                <h3 class="heading mb-3">Author</h3>
+                <p class=" mb-3" id="author" ></p>
+              </div>
+            </div>      
+          </div>
+          <div class="col-md d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services text-center d-block">
+              <img src="http://localhost/proje/assets/images/open-book.png" >
+            </br></br>
+              <div class="media-body">
+                <h3 class="heading mb-3">Page Count</h3>
+                <p class=" mb-3" id="page_count"></p>
+              </div>
+            </div>      
+          </div>
+          <div class="col-md d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services text-center d-block">
+              <img src="http://localhost/proje/assets/images/translation.png" >
+            </br></br>
+              <div class="media-body">
+                <h3 class="heading mb-3">Language</h3>
+                <p class=" mb-3" id="language"></p>
+              </div>
+            </div>      
+          </div>
+          <div class="col-md d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services text-center d-block">
+              <img src="http://localhost/proje/assets/images/calendar.png" >
+            </br></br>
+              <div class="media-body">
+                <h3 class="heading mb-3">Publication Date</h3>
+                <p class=" mb-3" id="publish_date"></p>
+              </div>
+            </div>      
+          </div>
+          <div class="col-md d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services text-center d-block">
+              <img src="http://localhost/proje/assets/images/blog.png" >
+              </br></br>
+              <div class="media-body">
+                <h3 class="heading mb-3">Publisher</h3>
+                <p class=" mb-3"id="publisher"></p>
+              </div>
+            </div>      
+          </div>
+        </div>
+    		</div>
+    	</div>
+      <div class="container">
+        <div class="row">
+        	<div class="col-md-12  mb-5">
+    				<div class="row">
+    					<div class="col-md-6 d-flex ftco-animate">
+    						<div class="img align-self-stretch" style="background-image: url(http://localhost/proje/assets/images/destination-1.jpg);"></div>
+    					</div>
+
+    				</div>
+          </div>
+
+
+          <div id ="imgg">
+      <table width="100%" height="100%" align="center" valign="center">
+        <tr>
+       
+        <td>
+        
+          <img   class="img-fluid" >
+          </td></tr>
+          </table>
+          </div>
+          
+            
+        </br></br></br></br>
+
+        
+        <form method="post" action="/proje/index.php/Welcome/rating/" >
+       
+        
+            
+              <input type="hidden" id="php1_hidden" value="1">
+              <img src="http://localhost/proje/assets/images/star_1.png" onmouseover="change(this.id);" id="php1" class="php">
+              <input type="hidden" id="php2_hidden" value="2">
+              <img src="http://localhost/proje/assets/images/star_1.png" onmouseover="change(this.id);" id="php2" class="php">
+              <input type="hidden" id="php3_hidden" value="3">
+              <img src="http://localhost/proje/assets/images/star_1.png" onmouseover="change(this.id);" id="php3" class="php">
+              <input type="hidden" id="php4_hidden" value="4">
+              <img src="http://localhost/proje/assets/images/star_1.png" onmouseover="change(this.id);" id="php4" class="php">
+              <input type="hidden" id="php5_hidden" value="5">
+              <img src="http://localhost/proje/assets/images/star_1.png" onmouseover="change(this.id);" id="php5" class="php">
+              <input type="hidden" name="phprating" id="phprating" value="0">
+              <input type="hidden" id="book_id" name="book_id" value="">
+              <input type="submit" value="Rate!" name="submit_rating" class="btn py-3 px-4 btn-primary">
+              <p><a class="btn btn-primary px-5 py-3 mt-3"id="avgRate"><span class="ion-ios-arrow-forward"></span></a></p>
+
+          
+          </form>
+        
+        
+        
+          <div class="col-md-12 tour-wrap">
+    				<div class="pt-5 mt-5">
+              <h3 id="comment_count" class="mb-5">0 Reviews</h3>
+              <ul id="user_comments" class="comment-list"></ul>
+              <script>
+                
+              </script>
+              <div class="col text-center">
+		            <div class="block-27">
+		              <ul id="page">
+						        <li id="clicked" class="active"><span>1</span></li>
+					        </ul>
+		            </div>
+		          </div>
+              <div class="comment-form-wrap pt-5">
+                <h3 class="mb-5">Leave a comment</h3>
+                <form action="/proje/index.php/Welcome/addComment/" method="post" class="p-5 bg-light">
+                  <div class="form-group">
+                    <input type="hidden" id="slider" name="slider" value="">
+                  </div>
+                  <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea name="message"  cols="30" rows="10" class="form-control"></textarea>
+                  </div>
+                  <div class="form-group">
+                  <input type="checkbox"  name="spoiler" value="1">
+                  <label for="spoiler"> Comment includes spoiler!</label><br>
+                  </div>
+                  <div class="form-group">
+                    <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
+                  </div>
+
+                </form>
+              </div>
+            </div>
+    			</div>
+        </div>
+      </div>
+    </section> <!-- .section -->
+
+
+    <footer class="ftco-footer ftco-section">
+			<div class="container">
+			  <div class="row mb-5">
+				<div class="col-md">
+				  <div class="ftco-footer-widget mb-4">
+					<h2 class="ftco-heading-2">About <span><a href="http://localhost/proje/application/views/index.html">IBDMS</a></span></h2>
+					<p>A site established to bring book lovers together.</p>
+					<ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+					  <li class="ftco-animate"><a href="https://twitter.com/universitemDEU"><span class="icon-twitter"></span></a></li>
+					  <li class="ftco-animate"><a href="https://www.facebook.com/groups/deu.izmir"><span class="icon-facebook"></span></a></li>
+					  <li class="ftco-animate"><a href="https://www.instagram.com/deu_ceng/"><span class="icon-instagram"></span></a></li>
+					</ul>
+				  </div>
+				</div>
+				<div class="col-md">
+				  <div class="ftco-footer-widget mb-4 ml-md-4">
+					<h2 class="ftco-heading-2">Information</h2>
+					<ul class="list-unstyled">
+					  <li><a href="http://localhost/proje/application/views/index.html#home-section"><span class="icon-long-arrow-right mr-2"></span>Home</a></li>
+					  <li><a href="http://localhost/proje/application/views/index.html#services-section"><span class="icon-long-arrow-right mr-2"></span>Services</a></li>
+					  <li><a href="http://localhost/proje/application/views/index.html#blog-section"><span class="icon-long-arrow-right mr-2"></span>Blog</a></li>
+
+					</ul>
+				  </div>
+				</div>
+				<div class="col-md">
+				   <div class="ftco-footer-widget mb-4">
+					<h2 class="ftco-heading-2">Actions</h2>
+					<ul class="list-unstyled">
+					  <li><a href="http://localhost/proje/application/views/index.html#destination-section"><span class="icon-long-arrow-right mr-2"></span>Search</a></li>
+					  <li><a href="http://localhost/proje/application/views/index.html#hotel-section"><span class="icon-long-arrow-right mr-2"></span>Lists</a></li>
+					  <li><a href="http://localhost/proje/application/views/index.html#home-section"><span class="icon-long-arrow-right mr-2"></span>Recommendation</a></li>
+					  <li><a href="http://localhost/proje/application/views/index.html#login-section"><span class="icon-long-arrow-right mr-2"></span>Profile</a></li>
+					</ul>
+				  </div>
+				</div>
+				<div class="col-md">
+				  <div class="ftco-footer-widget mb-4">
+					  <h2 class="ftco-heading-2">Have a Questions?</h2>
+					  <div class="block-23 mb-3">
+						<ul>
+						  <li><span class="icon icon-map-marker"></span><span class="text">Kuruçeşme Mh. Deü Kaynaklar Yerleşkesi Pk:35370 Buca/izmir</span></li>
+						  <li><a href="#"><span class="icon icon-phone"></span><span class="text">(0232) 412 74 01</span></a></li>
+						  <li><a href="#"><span class="icon icon-envelope"></span><span class="text">web@cs.deu.edu.tr</span></a></li>
+						</ul>
+					  </div>
+				  </div>
+				</div>
+			  </div>
+			  <div class="row">
+				<div class="col-md-12 text-center">
+		  
+				  <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+		Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved. <i class="icon-heart color-danger" aria-hidden="true"></i> </a>
+		<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+				</div>
+			  </div>
+			</div>
+		  </footer>
+    
+  
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  <script src="http://localhost/proje/assets/js/jquery.min.js"></script>
+  <script src="http://localhost/proje/assets/js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="http://localhost/proje/assets/js/popper.min.js"></script>
+  <script src="http://localhost/proje/assets/js/bootstrap.min.js"></script>
+  <script src="http://localhost/proje/assets/js/jquery.easing.1.3.js"></script>
+  <script src="http://localhost/proje/assets/js/jquery.waypoints.min.js"></script>
+  <script src="http://localhost/proje/assets/js/jquery.stellar.min.js"></script>
+  <script src="http://localhost/proje/assets/js/owl.carousel.min.js"></script>
+  <script src="http://localhost/proje/assets/js/jquery.magnific-popup.min.js"></script>
+  <script src="http://localhost/proje/assets/js/aos.js"></script>
+  <script src="http://localhost/proje/assets/js/jquery.animateNumber.min.js"></script>
+  <script src="http://localhost/proje/assets/js/scrollax.min.js"></script>
+  <script src="http://localhost/proje/assets/https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="http://localhost/proje/assets/js/google-map.js"></script>
+  
+  <script src="http://localhost/proje/assets/js/main.js"></script>
+    
+  </body>
+</html>
